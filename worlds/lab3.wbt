@@ -1,0 +1,46 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  basicTimeStep 16
+  coordinateSystem "NUE"
+  contactProperties [
+    ContactProperties {
+      material1 "DPM-Tile"
+      material2 "Rubber"
+      coulombFriction [
+        1000
+      ]
+      bounce 0.1
+      softCFM 0.0001
+    }
+  ]
+}
+Viewpoint {
+  orientation -0.578345658164443 -0.573960472334262 -0.5797289676048353 2.1015488276046037
+  position 1.143133548601866 6.058217635684916 1.0958237849712835
+}
+DPM-Floor {
+  dimension 7 7
+  wallHeight 0.2
+  children [
+    DPM-Marker {
+      translation 0.15 0.15
+      r1 0
+      r2 0.015
+      sections 25
+      ringColor 1 0 0
+      borderColor 1 0 0
+    }
+    DPM-Marker {
+      translation 0.25 0.15
+      r1 0
+      r2 0.015
+      sections 25
+      ringColor 0 0 1
+      borderColor 0 0 1
+    }
+  ]
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
