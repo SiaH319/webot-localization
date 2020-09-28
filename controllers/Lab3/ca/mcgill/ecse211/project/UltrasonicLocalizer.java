@@ -37,7 +37,6 @@ public class UltrasonicLocalizer {
     double deltaT;
     double angleA = 0; 
     double angleB= 0; 
-    boolean isFacingWall = getDist()<dropoff;
     double[] Angles = new double[2];
     
     while (angleB != 0) {
@@ -57,7 +56,6 @@ public class UltrasonicLocalizer {
     }
 
 
-    boolean FacingWall = ((int) (usData[usData.length-1] * 100.0) )<dropoff;
 
     if (angleA > angleB) {
       deltaT = 225.0 - 0.5 * (angleA - angleB);
@@ -68,9 +66,7 @@ public class UltrasonicLocalizer {
     }
 
     double newAngle = deltaT + odometer.getXyt()[2];
-    if (FacingWall) {
-      newAngle += 180;
-    }
+
     odometer.setXyt(0.0, 0.0, deltaT);
     turnBy(360 - (newAngle));
 
