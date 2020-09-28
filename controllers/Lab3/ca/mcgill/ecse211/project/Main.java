@@ -10,16 +10,16 @@ import java.lang.Thread;
  * Main class of the program.
  */
 public class Main {
-  
+
   /*
    * The number of threads used in the program (main, odometer), other than the one used to
    * perform physics steps.
    */
   public static final int NUMBER_OF_THREADS = 2;
-  
+
   /** Flag to indicate which localization method to run. */
-  public static final boolean IS_ULTRASONIC = false;
-  
+  public static final boolean IS_ULTRASONIC = true;
+
   /**
    * Main entry point.
    * 
@@ -27,19 +27,23 @@ public class Main {
    */
   public static void main(String[] args) {
     initialize();
-    
+
     // Start the odometer thread
     new Thread(odometer).start();
 
     // TODO
-    //UltrasonicLocalizer.localize();
+    if (IS_ULTRASONIC == true) {
+      UltrasonicLocalizer.localize();
+      pause(); 
+    }
 
-    pause();
-
-    // TODO
-    //LightLocalizer.localize();
+    else {
+      // TODO
+      //LightLocalizer.localize();
+    }
     
     // TODO Print final odometer values
+    odometer.printPosition();
   }
 
   /**
@@ -53,18 +57,18 @@ public class Main {
 
     // We are going to start two threads, so the total number of parties is 2
     setNumberOfParties(NUMBER_OF_THREADS);
-    
+
     // Does not count as a thread because it is only for physics steps
     new Thread(() -> {
       while (performPhysicsStep()) {
         sleepFor(PHYSICS_STEP_PERIOD);
       }
     }).start();
-    
+
     leftMotor.setSpeed(FORWARD_SPEED);
     rightMotor.setSpeed(FORWARD_SPEED);
   }
-  
+
   /**
    * Halts the robot for a while to allow pausing the simulation to evaluate ultrasonic
    * localization.
@@ -73,11 +77,11 @@ public class Main {
     System.out.println("Ultrasonic localization completed. Pause simulation now!");
     leftMotor.setSpeed(0);
     rightMotor.setSpeed(0);
-    
+
     for (int i = 0; i < PAUSE_DURATION; i++) {
       waitUntilNextStep();
     }
-    
+
     leftMotor.setSpeed(FORWARD_SPEED);
     rightMotor.setSpeed(FORWARD_SPEED);
   }

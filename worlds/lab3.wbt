@@ -15,8 +15,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation -0.578345658164443 -0.573960472334262 -0.5797289676048353 2.1015488276046037
-  position 1.143133548601866 6.058217635684916 1.0958237849712835
+  orientation 0.1440275252497926 0.8930300831307801 0.4263253952016608 3.727617774266619
+  position -0.21101281621707713 0.8517715920620126 -0.286578123701206
 }
 DPM-Floor {
   dimension 7 7
@@ -43,4 +43,60 @@ DPM-Floor {
 TexturedBackground {
 }
 TexturedBackgroundLight {
+}
+DPM-Robot {
+  hidden position_7_0 -154.04282189827217
+  hidden translation_8 -5.1407272509462754e-05 -6.31903287418023e-07 -6.17424937780324e-05
+  hidden rotation_8 -0.40889336456742875 0.86173224536467 0.30037269135441075 2.6942376248920494
+  hidden rotation_10 1 0 0 4.078047458845123
+  hidden rotation_13 -0.9999999999999999 0 0 3.98299404161758
+  translation 0.3295032162732784 0.05338678065018841 0.25735029935233017
+  rotation 0.021673867060073567 0.9995123315354637 -0.02247982640511077 1.6080784409945776
+  children [
+    robot3_base_asm-solid {
+      translation 0 -0.003 -0.032
+      rotation 1 0 0 -1.57
+    }
+    EV3-ColorSensor {
+      translation -0.004 -0.002 -0.092
+      rotation 0 1 0 3.14159
+    }
+    EV3-Ultrasonic {
+      name "S1"
+      translation 0.000226127 0.0327442 -0.0941591
+      rotation 0.0002395209588545771 0.6904868813866858 0.7233448757422692 -3.1012753071795864
+    }
+    BallCaster {
+      translation 0 -0.041 0.04
+      rotation 1 0 0 -1.57
+    }
+    EV3-LargeMotor {
+      name "A"
+      translation -0.05 -0.02 -0.022
+      rotation 1 0 0 -1.57
+      position 7946.389438089334
+      children [
+        Wheel {
+          translation -0.02 0 0
+          rotation 0 0 1 -1.57
+        }
+      ]
+    }
+    EV3-LargeMotor {
+      name "D"
+      translation 0.05 -0.02 -0.022
+      rotation 1 0 0 -1.57
+      position 7708.683441910429
+      children [
+        Wheel {
+          translation 0.02 0 0
+          rotation 0 0 1 1.57
+        }
+      ]
+    }
+    EV3 {
+      rotation 1 0 0 -1.57
+    }
+  ]
+  controller "Lab3"
 }
