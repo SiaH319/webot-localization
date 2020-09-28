@@ -128,6 +128,21 @@ public class UltrasonicLocalizer {
     rightMotor.rotate(-convertAngle(angle), false);
 
   }
+  public void turnTo(double theta) {          
+    //convert to degrees
+    theta = Math.toDegrees(theta);
+    
+    //turn to calculated angle
+    int rotation = convertAngle(theta);
+    
+    // rotate the appropriate direction (sign on theta accounts for direction)
+    leftMotor.rotate(rotation, true);
+    rightMotor.rotate(-rotation, false);
+    
+    leftMotor.stop();
+    rightMotor.stop();
+}
+
   public static int convertAngle(double angle) {
 
     // TODO Compute and return the correct value. Hint: you can reuse convertDistance()

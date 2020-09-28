@@ -24,7 +24,7 @@ PROTO robot3_base_asm-solid [
 		}
 		physics Physics {
 			density -1
-			mass 36.013020
+			mass 43.901791
 		}
 	}
 }

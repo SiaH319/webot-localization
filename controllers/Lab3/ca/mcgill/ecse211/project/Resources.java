@@ -32,13 +32,13 @@ public class Resources {
   public static final double BASE_WIDTH = 0.14;
   
   /** The speed at which the robot moves forward in degrees per second. */
-  public static final int FORWARD_SPEED = 500;
+  public static final int FORWARD_SPEED = 200;
   
   /** The speed at which the robot rotates in degrees per second. */
-  public static final int ROTATE_SPEED = 350;
+  public static final int ROTATE_SPEED = 150;
   
   /** The motor acceleration in degrees per second squared. */
-  public static final int ACCELERATION = 3000;
+  public static final int ACCELERATION = 2000;
   
   /** The tile size in meters. Note that 0.3048 m = 1 ft. */
   public static final double TILE_SIZE = 0.3048;

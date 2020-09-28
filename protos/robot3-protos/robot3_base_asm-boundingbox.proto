@@ -10,6 +10,6 @@ PROTO robot3_base_asm-boundingbox [
 ]
 {
 		Box {
-			size 0.150255 0.127995 0.063719
+			size 0.150255 0.127995 0.065309
 		}
 }
