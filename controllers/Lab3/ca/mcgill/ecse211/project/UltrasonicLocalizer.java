@@ -12,13 +12,13 @@ import simlejos.robotics.SampleProvider;
  */
 public class UltrasonicLocalizer {
 
-  private static int dropoff = 30;
+  private static int d = 30;
   private static int dist;
+  private static int k = 1;
   private static double[] fallingAngle = new double[2];
 
   /** Buffer (array) to store US samples. */
-  private static SampleProvider usDistance = usSensor.getMode("Distance");
-  private static float[] usData = new float[usDistance.sampleSize()];
+  private static float[] usData = new float[usSensor.sampleSize()];
 
   // parameters for filter() methods.
   /** The distance remembered by the filter() method. */
@@ -26,81 +26,65 @@ public class UltrasonicLocalizer {
   /** The number of invalid samples seen by filter() so far. */
   private static int invalidSampleCount;
 
-  public enum Direction { LEFT, BACK };
-
-
   /**
    * Consturctor for UltrasonicLocalizer().
    */
 
+  private static double backAngle;
+  private static double leftAngle;
+  private static double deltaT;
+  private static int intPoistion = filter((int) (usData[usSensor.sampleSize()-1] * 100.0));
   public static void localize() {
-    double deltaT;
-    double angleA = 0; 
-    double angleB= 0; 
-    double[] Angles = new double[2];
-    
-    while (angleB != 0) {
-      if (getDist()>dropoff) { // facing away from the wall
-        while (getDist()<dropoff) {
-          rotateClockwise();
-        }
-        angleA = odometer.getXyt()[2];
-      }
+    System.out.println("UltrasonicLocalizer is localizing the robot");
 
-      else { // facing the wall
-        while (getDist()>dropoff) {
-          rotateCounterClockwise();
-        }
-        angleB = odometer.getXyt()[2];
-      }
+    while (readUsDistance() < 100) {
+      leftMotor.forward();
+      rightMotor.backward();
     }
 
-
-
-    if (angleA > angleB) {
-      deltaT = 225.0 - 0.5 * (angleA - angleB);
-    }
-
-    else  {
-      deltaT = 45.0 - 0.5 * (angleA - angleB);
-    }
-
-    double newAngle = deltaT + odometer.getXyt()[2];
-
-    odometer.setXyt(0.0, 0.0, deltaT);
-    turnBy(360 - (newAngle));
-
-  }
-
-  private static int getDist() {
-    int distance;
-    usDistance.fetchSample(usData, 0);
-    distance = (int) (usData[0] * 100.0);
-    return filter(distance); 
-  }
-
-  /**
-   * Rotate the robot clockwise.
-   */
-  public static void rotateClockwise() {
-    leftMotor.forward();
-    rightMotor.backward();
-  }
-
-  /**
-   * Rotate the robot counter clockwise.
-   */ 
-  public static void rotateCounterClockwise() {
-    leftMotor.backward();
-    rightMotor.forward();
-  }
-
-  /**
-   * Stop the movement of the robot.
-   */ 
-  public static void stopMoving() {
     leftMotor.setSpeed(0);
     rightMotor.setSpeed(0);
+    
+    while (readUsDistance() > d) {
+      leftMotor.setSpeed(ROTATE_SPEED);
+      rightMotor.setSpeed(ROTATE_SPEED);
+      
+      leftMotor.forward();
+      rightMotor.backward();
+    }
+    leftMotor.setSpeed(0);
+    rightMotor.setSpeed(0);
+    backAngle = odometer.getXyt()[2];
+    System.out.println("backAngle = "+ backAngle);
+    while (true) {
+      leftMotor.setSpeed(ROTATE_SPEED);
+      rightMotor.setSpeed(ROTATE_SPEED);
+      leftMotor.backward();
+      rightMotor.forward();
+      if (readUsDistance() <= d && Math.abs(((int)backAngle) - ((int)odometer.getXyt()[2]))>2) {
+        break;
+      }
+    }
+    leftMotor.setSpeed(0);
+    rightMotor.setSpeed(0);
+    leftAngle = odometer.getXyt()[2];
+    System.out.println("leftAngle = "+ leftAngle);
+
+
+   double average = (leftAngle + backAngle)/2;
+  deltaT = Math.abs((backAngle - average)/2);
+    odometer.setXyt(0.0, 0.0, deltaT);
+    turnBy(deltaT);
+
+  }
+
+
+
+
+  /** Returns the filtered distance between the US sensor and an obstacle in cm. */
+  public static int readUsDistance() {
+    usSensor.fetchSample(usData, 0);
+    return filter((int) (usData[0] * 100.0));
   }
 
   /**
@@ -113,7 +97,9 @@ public class UltrasonicLocalizer {
       // bad value, increment the filter value and return the distance remembered from before
       invalidSampleCount++;
       return prevDistance;
-    } else {
+    } 
+
+    else {
       if (distance < MAX_SENSOR_DIST) {
         invalidSampleCount = 0; // reset filter and remember the input distance.
       }
@@ -121,35 +107,21 @@ public class UltrasonicLocalizer {
       return distance;
     }
   }
-  public static void turnBy(double angle) {
-    // TODO Hint: similar to moveStraightFor(), but use a minus sign
 
+  public static void turnBy(double angle) {
     leftMotor.rotate(convertAngle(angle), true);
     rightMotor.rotate(-convertAngle(angle), false);
-
   }
-  public void turnTo(double theta) {          
-    //convert to degrees
-    theta = Math.toDegrees(theta);
-    
-    //turn to calculated angle
-    int rotation = convertAngle(theta);
-    
-    // rotate the appropriate direction (sign on theta accounts for direction)
-    leftMotor.rotate(rotation, true);
-    rightMotor.rotate(-rotation, false);
-    
-    leftMotor.stop();
-    rightMotor.stop();
-}
 
   public static int convertAngle(double angle) {
-
-    // TODO Compute and return the correct value. Hint: you can reuse convertDistance()
     return convertDistance((BASE_WIDTH * Math.PI * angle) / 360);
   }
+
+  public static void stopMotors() {
+    leftMotor.stop();
+    rightMotor.stop();
+  }
   public static int convertDistance(double distance) {
-    // TODO Compute and return the correct value
     return (int) ((distance * 180) / (Math.PI * WHEEL_RAD));
   }
 
