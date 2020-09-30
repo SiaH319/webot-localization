@@ -34,6 +34,7 @@ public class Main {
     // TODO
     if (IS_ULTRASONIC == true) {
       UltrasonicLocalizer.localize();
+      odometer.setXyt(0.0, 0.0, 0.0);
       pause(); 
     }
 
