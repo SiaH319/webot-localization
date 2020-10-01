@@ -32,11 +32,11 @@ public class LightLocalizer {
       if (readColorLeft()<50) {
         break;
       }
-      }
-    leftMotor.setSpeed(0);
-    rightMotor.setSpeed(0);
+    }
+    moveStraightFor(0.1);
 
-    
+    leftMotor.setSpeed(0);
+    rightMotor.setSpeed(0); 
 
   }
 
