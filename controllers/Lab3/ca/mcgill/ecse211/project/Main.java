@@ -18,7 +18,7 @@ public class Main {
   public static final int NUMBER_OF_THREADS = 2;
 
   /** Flag to indicate which localization method to run. */
-  public static final boolean IS_ULTRASONIC = true;
+  //public static final boolean IS_ULTRASONIC = false;
 
   /**
    * Main entry point.
@@ -31,11 +31,11 @@ public class Main {
     // Start the odometer thread
     new Thread(odometer).start();
 
-    UltrasonicLocalizer.localize();
-    odometer.setXyt(0.0, 0.0, 0.0);
-    pause(); 
+   //UltrasonicLocalizer.localize();
+   //odometer.setXyt(0.0, 0.0, 0.0);
+   //pause(); 
 
-    //LightLocalizer.localize();
+    LightLocalizer.localize();
 
 
     odometer.printPosition();

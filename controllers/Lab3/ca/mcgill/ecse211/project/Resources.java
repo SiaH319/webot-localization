@@ -32,7 +32,7 @@ public class Resources {
   public static final double BASE_WIDTH = 0.14;
   
   /** The speed at which the robot moves forward in degrees per second. */
-  public static final int FORWARD_SPEED = 200;
+  public static final int FORWARD_SPEED = 80;
   
   /** The speed at which the robot rotates in degrees per second. */
   public static final int ROTATE_SPEED = 50;
