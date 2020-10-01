@@ -31,11 +31,11 @@ public class Main {
     // Start the odometer thread
     new Thread(odometer).start();
 
-   //UltrasonicLocalizer.localize();
-   //odometer.setXyt(0.0, 0.0, 0.0);
-   //pause(); 
+    UltrasonicLocalizer.localize();
+    pause(); 
 
     LightLocalizer.localize();
+    odometer.setXyt(1.0, 1.0, 0.0);
 
 
     odometer.printPosition();

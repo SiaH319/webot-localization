@@ -62,6 +62,7 @@ public class Resources {
   public static final EV3UltrasonicSensor usSensor = new EV3UltrasonicSensor(SensorPort.S1);
   
   /** The color sensor sample provider. */
-  public static final SampleProvider colorSensor = new EV3ColorSensor(SensorPort.S2).getRedMode();
+  public static final SampleProvider colorSensorR = new EV3ColorSensor(SensorPort.S2).getRedMode();
+  public static final SampleProvider colorSensorL = new EV3ColorSensor(SensorPort.S3).getRedMode();
   
 }

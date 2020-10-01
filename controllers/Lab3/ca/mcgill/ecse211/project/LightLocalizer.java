@@ -9,56 +9,52 @@ import simlejos.hardware.port.SensorPort;
 import simlejos.hardware.sensor.EV3ColorSensor;
 
 public class LightLocalizer {
-  public static final SampleProvider colorSensorR = new EV3ColorSensor(SensorPort.S2).getRedMode();
-  public static final SampleProvider colorSensorL = new EV3ColorSensor(SensorPort.S3).getRedMode();
   public static float[] CSR = new float[colorSensorR.sampleSize()];
   public static float[] CSL = new float[colorSensorL.sampleSize()];
 
   public static void localize() {
     System.out.println("LightLocalizer is localizing the robot");
-    while (readColorRight() < 150 && readColorLeft() < 150) {
-      goForward();
-      readColorRight();
-      readColorLeft();
-      System.out.println("Color sensor: right = " + readColorRight() + ", left = " + readColorLeft());
-    }
-
     turnBy(90);
-    /*
-    for (int i = 0; i < 50; i++) {
-      waitUntilNextStep();
-    }
 
     while (true) {
       goForward();
       System.out.println("Color sensor: right = " + readColorRight() + ", left = " + readColorLeft());
-      if (readColorRight() >= 157 || readColorLeft() >= 157) {
+      if (readColorRight()<30) {
         break;
       }
-
     }
-
-    for (int i = 0; i < 50; i++) {
-      waitUntilNextStep();
-    }
-
+    moveStraightFor(0.15);
     turnBy(-90);
-     */
+
+    while (true) {
+      goForward();
+      System.out.println("Color sensor: right = " + readColorRight() + ", left = " + readColorLeft());
+      if (readColorLeft()<50) {
+        break;
+      }
+      }
+    leftMotor.setSpeed(0);
+    rightMotor.setSpeed(0);
+
+    
 
   }
 
-  /** Returns the filtered distance between the US sensor and an obstacle in cm. */
+  /** read left color sensor readings. */
   public static float readColorLeft() {
     colorSensorL.fetchSample(CSL, 0);
-    float readL = CSL[0] ;
+    float readL = CSL[0];
     return readL;
   }
+
+  /** read right color sensor readings. */
   public static float readColorRight() {
     colorSensorR.fetchSample(CSR, 0);
     float readR = CSR[0];
 
     return readR;
   }
+
   /**
    * Turns the robot by a specified angle. Note that this method is different from
    * {@code Navigation.turnTo()}. For example, if the robot is facing 90 degrees, calling
@@ -109,4 +105,16 @@ public class LightLocalizer {
   public static int convertDistance(double distance) {
     return (int) ((distance * 180) / (Math.PI * WHEEL_RAD));
   }
+
+  /**
+   * Moves the robot straight for the given distance.
+   * 
+   * @param distance in feet (tile sizes), may be negative
+   */
+  public static void moveStraightFor(double distance) {
+    // TODO
+    leftMotor.rotate(convertDistance(TILE_SIZE * distance), true);
+    rightMotor.rotate(convertDistance(TILE_SIZE * distance), false);
+  }
+
 }
