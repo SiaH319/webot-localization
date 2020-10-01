@@ -31,19 +31,13 @@ public class Main {
     // Start the odometer thread
     new Thread(odometer).start();
 
-    // TODO
-    if (IS_ULTRASONIC == true) {
-      UltrasonicLocalizer.localize();
-      odometer.setXyt(0.0, 0.0, 0.0);
-      pause(); 
-    }
+    UltrasonicLocalizer.localize();
+    odometer.setXyt(0.0, 0.0, 0.0);
+    pause(); 
 
-    else {
-      // TODO
-      //LightLocalizer.localize();
-    }
-    
-    // TODO Print final odometer values
+    //LightLocalizer.localize();
+
+
     odometer.printPosition();
   }
 
