@@ -8,9 +8,19 @@ import simlejos.robotics.SampleProvider;
 import simlejos.hardware.port.SensorPort;
 import simlejos.hardware.sensor.EV3ColorSensor;
 
+/** 
+ * class for the handling the light sensor localization. * 
+ * @author Sia Ham
+ *
+ */
 public class LightLocalizer {
   public static float[] CSR = new float[colorSensorR.sampleSize()];
   public static float[] CSL = new float[colorSensorL.sampleSize()];
+
+  /**
+   * Localize the position of the robot using light sensor localizer.
+   ** @author Sia Ham
+   */
 
   public static void localize() {
     System.out.println("LightLocalizer is localizing the robot");
@@ -18,22 +28,27 @@ public class LightLocalizer {
 
     while (true) {
       goForward();
-      System.out.println("Color sensor: right = " + readColorRight() + ", left = " + readColorLeft());
-      if (readColorRight()<30) {
+      System.out.println(
+          "Color sensor: right = " + readColorRight() 
+          + ", left = " + readColorLeft());
+      if (readColorRight() < 30) {
         break;
       }
     }
+
     moveStraightFor(0.15);
     turnBy(-90);
 
     while (true) {
       goForward();
-      System.out.println("Color sensor: right = " + readColorRight() + ", left = " + readColorLeft());
-      if (readColorLeft()<50) {
+      System.out.println(
+          "Color sensor: right = " + readColorRight() 
+          + ", left = " + readColorLeft());
+      if (readColorLeft() < 50) {
         break;
       }
     }
-    moveStraightFor(0.1);
+    moveStraightFor(0.15);
 
     leftMotor.setSpeed(0);
     rightMotor.setSpeed(0); 
@@ -51,7 +66,6 @@ public class LightLocalizer {
   public static float readColorRight() {
     colorSensorR.fetchSample(CSR, 0);
     float readR = CSR[0];
-
     return readR;
   }
 
@@ -112,7 +126,6 @@ public class LightLocalizer {
    * @param distance in feet (tile sizes), may be negative
    */
   public static void moveStraightFor(double distance) {
-    // TODO
     leftMotor.rotate(convertDistance(TILE_SIZE * distance), true);
     rightMotor.rotate(convertDistance(TILE_SIZE * distance), false);
   }
