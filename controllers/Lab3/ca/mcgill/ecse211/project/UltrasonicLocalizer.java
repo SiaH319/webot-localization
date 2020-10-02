@@ -69,7 +69,7 @@ public class UltrasonicLocalizer {
     // find deltaT to turn the robot at 0 dgree
     double average = (leftAngle + backAngle) / 2;
     if (backAngle > leftAngle) {
-      deltaT = average - odometer.getXyt()[2] - 45;// modified formula from Tian Han Jiang
+      deltaT = average - odometer.getXyt()[2] - 45; // modified formula from Tian Han Jiang
     }
 
     else { 
@@ -78,9 +78,9 @@ public class UltrasonicLocalizer {
 
     turnBy(deltaT);
   }
-  
+
   /**
-   * rotate in clockwise
+   * rotate in clockwise.
    * */
   private static void clockwise() {
     leftMotor.setSpeed(ROTATE_SPEED);
@@ -91,7 +91,7 @@ public class UltrasonicLocalizer {
   }
 
   /**
-   * rotate in counter-clockwise
+   * rotate in counter-clockwise.
    * */
   private static void counterclockwise() {
     leftMotor.setSpeed(ROTATE_SPEED);
@@ -118,7 +118,8 @@ public class UltrasonicLocalizer {
       // bad value, increment the filter value and return the distance remembered from before
       invalidSampleCount++;
       return prevDistance;
-    } 
+    }
+    
     else {
       if (distance < MAX_SENSOR_DIST) {
         invalidSampleCount = 0; // reset filter and remember the input distance.
@@ -150,7 +151,7 @@ public class UltrasonicLocalizer {
   public static int convertAngle(double angle) {
     return convertDistance((BASE_WIDTH * Math.PI * angle) / 360);
   }
-  
+
   /**
    * Stops both motors.
    */
@@ -158,7 +159,7 @@ public class UltrasonicLocalizer {
     leftMotor.stop();
     rightMotor.stop();
   }
-  
+
   /**
    * Converts input angle to the total rotation of each wheel needed to rotate the robot by that
    * angle.

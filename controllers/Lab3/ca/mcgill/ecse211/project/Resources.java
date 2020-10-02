@@ -22,9 +22,7 @@ public class Resources {
   
   /** The duration of the pause between ultrasonic and light localization. */
   public static final int PAUSE_DURATION = 10000; // performPhysicsStep() calls
-  
-  // TODO Adjust the following parameters based on your robot
-  
+   
   /** The wheel radius in meters. */
   public static final double WHEEL_RAD = 0.021;
   

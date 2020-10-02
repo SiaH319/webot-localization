@@ -17,8 +17,6 @@ public class Main {
    */
   public static final int NUMBER_OF_THREADS = 2;
 
-  /** Flag to indicate which localization method to run. */
-  //public static final boolean IS_ULTRASONIC = false;
 
   /**
    * Main entry point.
