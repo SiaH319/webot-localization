@@ -33,7 +33,7 @@ public class Main {
     pause(); 
 
     LightLocalizer.localize();
-    odometer.setXyt(1.0, 1.0, 0.0);
+    odometer.setXyt(TILE_SIZE, TILE_SIZE, 0.0);
 
 
     odometer.printPosition();
